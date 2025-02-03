@@ -1,0 +1,66 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  clerkId   String   @unique
+  firstName String?
+  lastName  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // Relaciones con otros modelos
+  character Character?
+  gifts     Gift[]
+  chats     Chat[]
+}
+
+model Character {
+  id          String   @id @default(cuid())
+  name        String
+  personality String
+  appearance  String
+  userId      String   @unique
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relaciones
+  user        User     @relation(fields: [userId], references: [id])
+  chats       Chat[]
+}
+
+model Gift {
+  id          String   @id @default(cuid())
+  name        String
+  description String
+  type        String
+  userId      String
+  createdAt   DateTime @default(now())
+  
+  // Relaciones
+  user        User     @relation(fields: [userId], references: [id])
+}
+
+model Chat {
+  id          String   @id @default(cuid())
+  message     String
+  userId      String
+  characterId String
+  createdAt   DateTime @default(now())
+  
+  // Relaciones
+  user        User      @relation(fields: [userId], references: [id])
+  character   Character @relation(fields: [characterId], references: [id])
+}
