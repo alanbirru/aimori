@@ -1,7 +1,18 @@
-import React from "react";
+"use client";
+import { useState } from "react";
+import { createCharacter } from "@/actions/character.actions";
 
-const page = () => {
-  return <div>characterCreator</div>;
-};
+export default function CharacterCreation() {
+  const [formData, setFormData] = useState({
+    name: "",
+    personality: "",
+    appearance: "",
+    gender: "",
+    occupation: "",
+  });
 
-export default page;
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState(false);
+
+  return <div>page</div>;
+}

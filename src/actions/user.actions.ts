@@ -57,3 +57,30 @@ export async function getOrCreateUser(): Promise<User | null> {
     return null;
   }
 }
+
+export async function getUserId(): Promise<string | null> {
+  try {
+    const user = await currentUser();
+    if (!user) {
+      throw new Error("No authenticated user found");
+    }
+
+    const dbUser = await prisma.user.findUnique({
+      where: {
+        clerkId: user.id,
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    if (!dbUser) {
+      throw new Error("User not found in database");
+    }
+
+    return dbUser.id;
+  } catch (error) {
+    console.error("Error getting user ID:", error);
+    return null;
+  }
+}

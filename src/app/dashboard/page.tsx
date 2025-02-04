@@ -4,7 +4,7 @@ import { WelcomeMessage } from "@/components/WelcomeMessage";
 import BackgroundGrid from "@/components/BackgroundGrid";
 import Sidebar from "@/components/DashboardComponents/Sidebar";
 
-export default async function Page() {
+export default async function DashboardPage() {
   const dbUser = await getOrCreateUser();
   if (!dbUser) return <div>Not signed in</div>;
 

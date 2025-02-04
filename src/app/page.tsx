@@ -17,7 +17,7 @@ export default async function Home() {
     <>
       {/* Grid Background - Movido fuera del main y ajustado para cubrir toda la pantalla */}
       <BackgroundGrid />
-      <main className="flex min-h-screen flex-col items-center justify-between">
+      <main className="flex flex-col items-center justify-between">
         {/* Hero Section */}
         <HeroSection />
         {/* Features Section */}
