@@ -30,14 +30,7 @@ export default function Navbar() {
             <SignedIn>
               <ClerkForm text={"Sign Out"} />
             </SignedIn>
-            <SignedIn>
-              <Link
-                href="/dashboard"
-                className="text-gray-600 hover:text-gray-900 transition-colors"
-              >
-                Dashboard
-              </Link>
-            </SignedIn>
+
             <div className="hidden sm:block">
               <ClerkForm text={"Sign In"} />
             </div>
