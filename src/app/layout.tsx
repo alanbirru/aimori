@@ -3,6 +3,7 @@ import { Roboto } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import Navbar from "@/components/Navbar";
+import { Toaster } from "react-hot-toast";
 
 const roboto = Roboto({
   variable: "--font-roboto",
@@ -41,6 +42,7 @@ export default function RootLayout({
         <body className="font-sans antialiased min-h-screen flex flex-col">
           <div className="container mx-auto">
             <Navbar />
+            <Toaster />
             <main className="flex-1">{children}</main>
           </div>
         </body>
