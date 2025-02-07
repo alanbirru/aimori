@@ -80,7 +80,7 @@ function Page() {
         <Sidebar />
         {/* Main content */}
         <div className="flex-1">
-          <div className="flex h-[calc(100vh-64px)] bg-gradient-to-b from-white to-blue-50/30 mt-16 pl-16 ">
+          <div className="flex h-[calc(100vh-64px)] bg-gradient-to-b from-white to-blue-50/30 mt-16 pl-16  ">
             <div className="flex-1 flex flex-col">
               <div
                 ref={chatContainerRef}

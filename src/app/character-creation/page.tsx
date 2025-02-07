@@ -1,125 +1,31 @@
-"use client";
-import { useState } from "react";
-import { createCharacter } from "@/actions/character.actions";
-import { useRouter } from "next/navigation";
-import { toast } from "react-hot-toast";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
+import { getOrCreateUser } from "@/actions/user.actions";
+import CharacterForm from "@/components/CharacterCreatorComponents/CharacterForm";
 
-export default function CharacterCreation() {
-  const router = useRouter();
+import { Button } from "@/components/ui/button";
 
-  const [formData, setFormData] = useState({
-    name: "",
-    personality: "",
-    appearance: "",
-    gender: "",
-    occupation: "",
-  });
+import Link from "next/link";
+import BackgroundGrid from "@/components/BackgroundGrid";
+export default async function CharacterCreation() {
+  const dbUser = await getOrCreateUser();
 
-  //handle submit
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    const result = await createCharacter(formData);
-
-    if (!result.success) {
-      toast.error(result.error || "Error creating character");
-      return;
-    }
-
-    toast.success("Character created correctly");
-    router.push("/dashboard");
-  };
-
-  //handle change
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+  if (!dbUser) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-4 px-5">
+        <h2 className="text-2xl font-semibold text-gray-800">Not Signed In</h2>
+        <p className="text-gray-600">Please sign in to access your dashboard</p>
+        <Link href="/sign-in">
+          <Button>Sign In</Button>
+        </Link>
+      </div>
+    );
+  }
 
   return (
-    <div>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <Label htmlFor="name" className="block mb-2">
-            Name
-          </Label>
-          <Input
-            type="text"
-            id="name"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <div>
-          <Label htmlFor="personality" className="block mb-2">
-            Personality
-          </Label>
-          <textarea
-            id="personality"
-            name="personality"
-            value={formData.personality}
-            onChange={handleChange}
-            required
-            rows={3}
-          />
-        </div>
-
-        <div>
-          <label htmlFor="appearance" className="block mb-2">
-            Appearance
-          </label>
-          <textarea
-            id="appearance"
-            name="appearance"
-            value={formData.appearance}
-            onChange={handleChange}
-            required
-            rows={3}
-          />
-        </div>
-
-        <div>
-          <Label htmlFor="gender" className="block mb-2">
-            Gender
-          </Label>
-          <Input
-            type="text"
-            id="gender"
-            name="gender"
-            value={formData.gender}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <div>
-          <Label htmlFor="occupation" className="block mb-2">
-            Occupation
-          </Label>
-          <Input
-            type="text"
-            id="occupation"
-            name="occupation"
-            value={formData.occupation}
-            onChange={handleChange}
-            required
-            className=" bg-white"
-          />
-        </div>
-
-        <button type="submit">Create Character</button>
-      </form>
-    </div>
+    <>
+      <BackgroundGrid />
+      <div>
+        <CharacterForm />
+      </div>
+    </>
   );
 }

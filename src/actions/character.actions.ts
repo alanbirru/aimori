@@ -39,3 +39,25 @@ export async function createCharacter(data: CharacterData) {
     return { success: false, error: "Error creating character" };
   }
 }
+
+export async function getCharacter() {
+  try {
+    const userId = await getUserId();
+    if (!userId) {
+      return { success: false, error: "User not authenticated" };
+    }
+
+    const character = await prisma.character.findUnique({
+      where: { userId },
+    });
+
+    if (!character) {
+      return { success: false, error: "No character found" };
+    }
+
+    return { success: true, character };
+  } catch (error) {
+    console.error("Error getting character:", error);
+    return { success: false, error: "Error getting character" };
+  }
+}
